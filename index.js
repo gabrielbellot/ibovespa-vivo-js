@@ -149,7 +149,6 @@ async function isBusinessDay(today) {
     }
 
     const currentYearHolidays = require(`./${today.year()}.json`)
-    currentYearHolidays.includes()
     currentYearHolidays.forEach((holiday) => {
         let holidayDate = new Date(holiday.date)
 
