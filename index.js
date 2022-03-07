@@ -91,7 +91,7 @@ setInterval(async () => {
     config.lastPrice = price
     fs.writeFileSync("./config.json", JSON.stringify(config))
 
-    let message = `💸 ${price} pontos - às ${now.format("HH:mm")}\n\n${emoji} Variação: ${change} pontos (${changePercent}%)`
+    let message = `💸 ${price.toLocaleString()} pontos - às ${now.format("HH:mm")}\n\n${emoji} Variação: ${change} pontos (${changePercent}%)`
     twitterClient.tweet(message)
 }, 3 * 60 * 1000)
 
@@ -109,7 +109,7 @@ setInterval(async () => {
         let ticker = await Yahoo.quote("^BVSP")
         let price = ticker.regularMarketPrice
 
-        let message = `🕙 Abertura de Mercado - Bolsa de Valores de São Paulo - ${now.format("DD/MM/YYYY")}\n\n💸 ${price} pontos ás 10:00\n🌞 Tenham um ótimo dia, investidores!`
+        let message = `🕙 Abertura de Mercado - Bolsa de Valores de São Paulo - ${now.format("DD/MM/YYYY")}\n\n💸 ${price.toLocaleString()} pontos ás 10:00\n🌞 Tenham um ótimo dia, investidores!`
         twitterClient.tweet(message)
     }
 
@@ -129,7 +129,7 @@ setInterval(async () => {
             emoji = "📉"
         }
         
-        let message = `🕡 Fechamento de Mercado - Bolsa de Valores de São Paulo - ${now.format("DD/MM/YYYY")}\n\n${emoji} ${price} pontos - (${changePercent}%)\n🕙 Abertura: ${ticker.regularMarketOpen.toFixed(2)} pontos\n📊 Mín-Máx diária: ${ticker.regularMarketDayLow.toFixed(2)}-${ticker.regularMarketDayHigh.toFixed(2)} pontos`
+        let message = `🕡 Fechamento de Mercado - Bolsa de Valores de São Paulo - ${now.format("DD/MM/YYYY")}\n\n${emoji} ${price.toLocaleString()} pontos - (${changePercent}%)\n🕙 Abertura: ${ticker.regularMarketOpen.toFixed(2).toLocaleString()} pontos\n📊 Mín-Máx diária: ${ticker.regularMarketDayLow.toFixed(2).toLocaleString()}-${ticker.regularMarketDayHigh.toFixed(2).toLocaleString()} pontos`
         twitterClient.tweet(message)
     }
 }, 60000);
