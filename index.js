@@ -57,6 +57,9 @@ console.log("Logged on successfully on client!!!")
 setInterval(async () => {
     let now = moment()
 
+    if (!(await isBusinessDay(now)))
+        return
+
     console.log("Fetching \""+ config.stockTicker + "\" ticker on Yahoo API!")
     let ticker = await Yahoo.quote(config.stockTicker)
 
@@ -97,10 +100,11 @@ setInterval(async () => {
 
 setInterval(async () => {
     const now = moment()
-    console.log(`${now.format("HH:mm")} - checking if it's opening/closure...`)
 
     if (!(await isBusinessDay(now)))
         return
+
+    console.log(`${now.format("HH:mm")} - checking if it's opening/closure...`)
 
     // 10:00 UTC-3
     if (now.hours() === 10 && now.minutes() === 0) {
