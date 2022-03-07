@@ -129,7 +129,7 @@ setInterval(async () => {
             emoji = "📉"
         }
         
-        let message = `🕡 Fechamento de Mercado - Bolsa de Valores de São Paulo - ${now.format("DD/MM/YYYY")}\n\n${emoji} ${price.toLocaleString()} pontos - (${changePercent}%)\n🕙 Abertura: ${ticker.regularMarketOpen.toFixed(2).toLocaleString()} pontos\n📊 Mín-Máx diária: ${ticker.regularMarketDayLow.toFixed(2).toLocaleString()}-${ticker.regularMarketDayHigh.toFixed(2).toLocaleString()} pontos`
+        let message = `🕡 Fechamento de Mercado - Bolsa de Valores de São Paulo - ${now.format("DD/MM/YYYY")}\n\n${emoji} ${price.toLocaleString()} pontos (${changePercent}%)\n🕙 Abertura: ${ticker.regularMarketOpen.toLocaleString()} pontos\n📊 Min-Máx diária: ${ticker.regularMarketDayLow.toLocaleString()} - ${ticker.regularMarketDayHigh.toLocaleString()} pontos`
         twitterClient.tweet(message)
     }
 }, 60000);
