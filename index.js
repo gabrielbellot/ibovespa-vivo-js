@@ -91,7 +91,7 @@ setInterval(async () => {
     config.lastPrice = price
     fs.writeFileSync("./config.json", JSON.stringify(config))
 
-    let message = `💸 ${price.toLocaleString()} pontos - às ${now.format("HH:mm")}\n\n${emoji} Variação: ${change} pontos (${changePercent}%)`
+    let message = `💸 ${price.toLocaleString()} pontos - às ${now.format("HH:mm")}\n\n${emoji} Variação: ${change.toLocaleString()} pontos (${changePercent}%)`
     twitterClient.tweet(message)
 }, 3 * 60 * 1000)
 
