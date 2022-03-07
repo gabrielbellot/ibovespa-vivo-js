@@ -93,7 +93,7 @@ setInterval(async () => {
 
     let message = `💸 ${price} pontos - às ${now.format("HH:mm")}\n\n${emoji} Variação: ${change} pontos (${changePercent}%)`
     twitterClient.tweet(message)
-}, 5 * 60 * 1000)
+}, 3 * 60 * 1000)
 
 setInterval(async () => {
     const now = moment()
