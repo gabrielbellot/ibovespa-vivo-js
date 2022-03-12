@@ -57,7 +57,7 @@ console.log("Logged on successfully on client!!!")
 setInterval(async () => {
     let now = moment()
 
-    if (!(await isBusinessDay(now)))
+    if (await isBusinessDay(now) === false)
         return
 
     console.log("Fetching \""+ config.stockTicker + "\" ticker on Yahoo API!")
@@ -101,7 +101,7 @@ setInterval(async () => {
 setInterval(async () => {
     const now = moment()
 
-    if (!(await isBusinessDay(now)))
+    if (await isBusinessDay(now) === false)
         return
 
     console.log(`${now.format("HH:mm")} - checking if it's opening/closure...`)
@@ -139,7 +139,7 @@ setInterval(async () => {
 }, 60000);
 
 async function isBusinessDay(today) {
-    if (today.day() === 0 || today.day() === 6)
+    if (today.day() === 0 || today.day() === 6) 
         return false
 
     if (!fs.existsSync(`./${today.year()}.json`)) {
