@@ -139,7 +139,7 @@ setInterval(async () => {
 }, 60000);
 
 async function isBusinessDay(today) {
-    if (today.day() == 0 || today.day() == 7)
+    if (today.day() === 0 || today.day() === 6)
         return false
 
     if (!fs.existsSync(`./${today.year()}.json`)) {
