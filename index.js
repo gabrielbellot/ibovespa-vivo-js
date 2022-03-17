@@ -19,6 +19,10 @@ Twitter.prototype.tweet = function tweet(status) {
     });
 }
 
+process.on('uncaughtException', (err) => {
+    console.log('Error: ', err)
+})
+
 console.logCopy = console.log.bind(console)
 console.log = function(...args) {
     this.logCopy('[' + moment().format("DD/MM/YYYY HH:mm:ss.SSS") + ']', ...args)
