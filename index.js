@@ -1,6 +1,7 @@
 // ALWAYS set the timezone to UTC-3 (Brasília timezone)!
 
 // DEPENDENCIES
+require("dotenv").config()
 const fs = require("fs")
 const Twitter = require("twitter")
 const Yahoo = require("yahoo-finance2").default
@@ -28,7 +29,7 @@ console.log = function(...args) {
     this.logCopy('[' + moment().format("DD/MM/YYYY HH:mm:ss.SSS") + ']', ...args)
 }
 
-if(!fs.existsSync("./config.json")) {
+/*if(!fs.existsSync("./config.json")) {
     console.log("Looks like it's the first time you're running the application!")
 
     fs.writeFileSync("./config.json", JSON.stringify({
@@ -43,16 +44,16 @@ if(!fs.existsSync("./config.json")) {
     }))
 
     console.log("Created file ./config.json! Consider filling it's data to start the bot!")
-    process.exit(1)
+   process.exit(1)
 }
 
-const config = require("./config.json")
+const config = require("./config.json")*/
 
 const twitterClient = new Twitter({
-    consumer_key: config.twitter.consumerKey,
-    consumer_secret: config.twitter.consumerSecret,
-    access_token_key: config.twitter.accessToken,
-    access_token_secret: config.twitter.accessSecret
+    consumer_key: process.env.TWITTER_CONSUMER_KEY,
+    consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+    access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
+    access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 })
 
 console.log("Logged on successfully on client!!!")
@@ -64,8 +65,8 @@ setInterval(async () => {
     if (await isBusinessDay(now) === false)
         return
 
-    console.log("Fetching \""+ config.stockTicker + "\" ticker on Yahoo API!")
-    let ticker = await Yahoo.quote(config.stockTicker)
+    console.log("Fetching \""+ process.env.STOCK_TICKER + "\" ticker on Yahoo API!")
+    let ticker = await Yahoo.quote(process.env.STOCK_TICKER)
 
     let price = ticker.regularMarketPrice
     let change = ticker.regularMarketChange.toFixed(2)
@@ -76,11 +77,11 @@ setInterval(async () => {
         return
 
     console.log("Fetched price                           : " + price)
-    console.log("Last price                              : " + config.lastPrice)
-    console.log("Is it different?                        : ", config.lastPrice !== price)
-    if (price === config.lastPrice) return
+    console.log("Last price                              : " + process.env.LAST_PRICE)
+    console.log("Is it different?                        : ", process.env.LAST_PRICE !== price)
+    if (price === process.env.LAST_PRICE) return
 
-    let difference = Math.abs(price - config.lastPrice)
+    let difference = Math.abs(price - process.env.LAST_PRICE)
     console.log("Is the difference higher than 2 points? : ", difference > 2)
     if (difference < 2) return
 
@@ -95,12 +96,13 @@ setInterval(async () => {
         emoji = "📉"
     }
     
-    config.lastPrice = price
-    fs.writeFileSync("./config.json", JSON.stringify(config))
+    process.env.LAST_PRICE = price
+    //config.lastPrice = price
+    //fs.writeFileSync("./config.json", JSON.stringify(config))
 
     let message = `💸 ${price.toLocaleString()} pontos - às ${now.format("HH:mm")}\n\n${emoji} Variação: ${change.toLocaleString()} pontos (${changePercent}%)`
     twitterClient.tweet(message)
-}, 3 * 60 * 1000)
+}, 3 *10 * 1000)
 
 setInterval(async () => {
     const now = moment()
@@ -114,7 +116,7 @@ setInterval(async () => {
     if (now.hours() === 10 && now.minutes() === 0) {
         console.log("10:00 AM - Announcing stocks opening!")
 
-        let ticker = await Yahoo.quote("^BVSP")
+        let ticker = await Yahoo.quote(process.env.STOCK_TICKER)
         let price = ticker.regularMarketPrice
 
         let message = `🕙 Abertura de Mercado - Bolsa de Valores de São Paulo - ${now.format("DD/MM/YYYY")}\n\n💸 ${price.toLocaleString()} pontos ás 10:00\n🌞 Tenham um ótimo dia, investidores!`
@@ -125,7 +127,7 @@ setInterval(async () => {
     if (now.hours() === 18 && now.minutes() === 30) {
         console.log("6:30 PM - Announcing stocks closing!")
 
-        let ticker = await Yahoo.quote("^BVSP")
+        let ticker = await Yahoo.quote(process.env.STOCK_TICKER)
         let price = ticker.regularMarketPrice
         let change = ticker.regularMarketChange.toFixed(2)
         let changePercent = ticker.regularMarketChangePercent.toFixed(2)  
