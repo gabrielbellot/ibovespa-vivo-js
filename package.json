@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "alphavantage-fix": "^2.3.4",
     "axios": "^0.26.0",
     "datejs": "^1.0.0-rc3",
     "dotenv": "^16.0.3",
