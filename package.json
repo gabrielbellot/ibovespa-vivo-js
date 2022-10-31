@@ -17,5 +17,8 @@
     "moment": "^2.29.1",
     "twitter": "^1.7.1",
     "yahoo-finance2": "^2.3.0"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
